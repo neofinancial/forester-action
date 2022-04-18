@@ -1,0 +1,19 @@
+{
+  "name": "dependanot-upload-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neofinancial/dependanot-upload-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neofinancial/dependanot-upload-action/issues"
+  },
+  "homepage": "https://github.com/neofinancial/dependanot-upload-action#readme"
+}
