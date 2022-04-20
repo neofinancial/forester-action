@@ -4,18 +4,10 @@ import { context } from '@actions/github';
 import { getAllData, getData } from './get-data';
 import { makeComment } from './make-comment';
 import { sendDataComment } from './send-data';
-import { testMonoRepo } from './test-mono-repo';
 
 const run = async (): Promise<void> => {
   try {
-    const monoRepo = getInput('monoRepo');
     const url = getInput('dependanotEndpoint');
-
-    if (monoRepo === 'true') {
-      await testMonoRepo(url, getAllData());
-
-      return;
-    }
 
     const prData = await getData();
     const authToken = getInput('dependanotToken');
@@ -42,12 +34,16 @@ const run = async (): Promise<void> => {
       }
     }
 
+    const contextPayload = getAllData();
+
     console.log(`Repo ID: ${prData.repositoryId}`);
     console.log(`Ref of branch being merged: ${prData.ref}`);
     console.log(`Ref of branch being merged into: ${prData.baseRef}`);
     console.log(`SHA of merge commit: ${prData.sha}`);
     console.log(`PR creator: ${prData.actor}`);
     console.log(`Time PR created: ${prData.timestamp}`);
+
+    console.log(`Context Payload: ${contextPayload}`);
 
     if (prData.pullRequest) {
       console.log(prData.pullRequest);
