@@ -59,7 +59,7 @@ const makeComment = async (commentData?: string): Promise<void> => {
         owner: owner,
         repo: repo,
         comment_id: botComment.id,
-        body: await constructComment(commentData),
+        body: await constructComment('update'),
       });
     }
   } catch {
