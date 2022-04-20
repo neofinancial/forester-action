@@ -3,11 +3,13 @@ import { context } from '@actions/github';
 import { Octokit } from '@octokit/action';
 import { Arborist } from '@npmcli/arborist';
 
+import constructComment from './construct-comment';
+
 export type CommentData = {
   foo: string;
 };
 
-const makeComment = async (message?: string): Promise<void> => {
+const makeComment = async (commentData?: string): Promise<void> => {
   try {
     if (!context.payload.pull_request) {
       setFailed('No pull requests found.');
@@ -43,21 +45,21 @@ const makeComment = async (message?: string): Promise<void> => {
 
     console.log(tree);
     console.log(botComment);
-    console.log(message);
+    console.log(commentData);
 
     if (!botComment) {
       octokit.issues.createComment({
         owner: owner,
         repo: repo,
         issue_number: pullRequestNumber,
-        body: `<!-- dependanot-action-comment -->`,
+        body: await constructComment(commentData),
       });
     } else {
       octokit.issues.updateComment({
         owner: owner,
         repo: repo,
         comment_id: botComment.id,
-        body: `<!-- dependanot-action-comment --> ${message}`,
+        body: await constructComment(commentData),
       });
     }
   } catch {
