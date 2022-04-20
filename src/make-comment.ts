@@ -3,7 +3,7 @@ import { context } from '@actions/github';
 import { Octokit } from '@octokit/action';
 import { Arborist } from '@npmcli/arborist';
 
-import constructComment from './construct-comment';
+import { constructComment } from './construct-comment';
 
 export type CommentData = {
   foo: string;
