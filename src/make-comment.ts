@@ -7,7 +7,7 @@ export type CommentData = {
   foo: string;
 };
 
-const makeComment = async (message: string): Promise<void> => {
+const makeComment = async (message?: string): Promise<void> => {
   try {
     if (!context.payload.pull_request) {
       setFailed('No pull requests found.');
@@ -50,7 +50,7 @@ const makeComment = async (message: string): Promise<void> => {
         owner: owner,
         repo: repo,
         issue_number: pullRequestNumber,
-        body: `<!-- dependanot-action-comment --> ${message}`,
+        body: `<!-- dependanot-action-comment -->`,
       });
     } else {
       octokit.issues.updateComment({

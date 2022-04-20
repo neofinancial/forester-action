@@ -3,7 +3,7 @@ import { context } from '@actions/github';
 
 import { getAllData, getData } from './get-data';
 import { makeComment } from './make-comment';
-import { sendDataComment } from './send-data';
+// import { sendDataComment } from './send-data';
 
 const run = async (): Promise<void> => {
   try {
@@ -22,17 +22,13 @@ const run = async (): Promise<void> => {
       );
     }
 
-    const reportMessage = getInput('reportMessage');
-
-    if (url) {
-      try {
-        if (reportMessage === 'report') {
-          prData.message = await sendDataComment(url, prData);
-        }
-      } catch (error) {
-        console.log(`${error}, Could not send data, printing comment`);
-      }
-    }
+    // if (url) {
+    //   try {
+    //     prData.message = await sendDataComment(url, prData);
+    //   } catch (error) {
+    //     console.log(`${error}, Could not send data, printing comment`);
+    //   }
+    // }
 
     const contextPayload = getAllData();
 
