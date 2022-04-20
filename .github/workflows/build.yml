@@ -24,3 +24,10 @@ jobs:
         run: npm run build
       - name: Test
         run: npm test
+      - name: Upload dependanot
+        uses: neofinancial/dependanot-action
+        with:
+          dependanotEndpoint: https://your.endpoint.here
+          dependanotToken: ${{ secrets.DEPENDANOT_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
