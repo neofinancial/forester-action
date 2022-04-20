@@ -1,19 +1,47 @@
 {
   "name": "dependanot-upload-action",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Parses dependency trees and uploads to remote endpoint",
+  "author": "Neo Financial Engineering",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neofinancial/dependanot-upload-action.git"
+    "url": "https://github.com/neofinancial/dependanot-upload-action"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/neofinancial/dependanot-upload-action/issues"
+  "private": true,
+  "main": "build/main.js",
+  "keywords": [
+    "actions",
+    "dependency",
+    "dependanot"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "format:check": "prettier --check **/*.ts",
+    "lint": "eslint \"**/*.{ts,js}\"",
+    "test": "jest --passWithNoTests",
+    "clean": "rimraf build",
+    "clean:modules": "rimraf node_modules"
   },
-  "homepage": "https://github.com/neofinancial/dependanot-upload-action#readme"
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "@npmcli/arborist": "^5.0.6",
+    "@octokit/action": "^3.18.0",
+    "axios": "^0.25.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "eslint": "^7.17.0",
+    "eslint-config-neo": "^0.6.3",
+    "jest": "^27.5.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
+  }
 }

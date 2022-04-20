@@ -1,0 +1,16 @@
+name: Dependabot Upload Action
+description: Upload Dependency trees to a remote endpoint
+author: Neo Financial Engineering
+branding:
+  icon: upload-cloud
+  color: blue
+inputs:
+  dependanotEndpoint:
+    description: endpoint to send dependency tree to
+    required: false
+  dependanotToken:
+    description: token to send with dependency tree
+    required: false
+runs:
+  using: 'node16'
+  main: 'build/index.js'
