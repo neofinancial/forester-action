@@ -25,9 +25,9 @@ jobs:
       - name: Test
         run: npm test
       - name: Upload dependanot
-        uses: neofinancial/dependanot-action
+        uses: ./
         with:
-          dependanotEndpoint: https://your.endpoint.here
+          dependanotEndpoint: ${{ secrets.COVERAGE_ENDPOINT }}
           dependanotToken: ${{ secrets.DEPENDANOT_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
