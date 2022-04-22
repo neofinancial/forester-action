@@ -5,12 +5,18 @@ branding:
   icon: upload-cloud
   color: blue
 inputs:
-  dependanotEndpoint:
-    description: endpoint to send dependency tree to
-    required: false
-  dependanotToken:
-    description: token to send with dependency tree
-    required: false
+  accessKeyId:
+    description: aws s3 access key id
+    required: true
+  secretKey:
+    description: aws s3 secret key
+    required: true
+  region:
+    description: aws s3 region
+    required: true
+  bucket:
+    description: aws s3 bucket
+    required: true
 runs:
   using: 'node16'
   main: 'build/index.js'
