@@ -6,16 +6,16 @@ branding:
   color: blue
 inputs:
   accessKeyId:
-    description: aws s3 access key id
+    description: aws access key id
     required: true
   secretKey:
-    description: aws s3 secret key
+    description: aws secret key
     required: true
   region:
-    description: aws s3 region
+    description: aws s3 bucket region
     required: true
   bucket:
-    description: aws s3 bucket
+    description: aws s3 bucket name
     required: true
 runs:
   using: 'node16'

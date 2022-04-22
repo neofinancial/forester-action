@@ -31,15 +31,22 @@ jobs:
       - name: Upload dependanot
         uses: neofinancial/dependanot-action
         with:
-          accessKeyId: ${{ secrets.ACCESS_KEY }}
-          secretKey: ${{ secrets.SECRET_KEY }}
-          region: ${{ secrets.REGION }}
-          bucket: ${{ secrets.BUCKET_NAME }}
+          dependanotEndpoint: https://your.endpoint.here
+          dependanotToken: ${{ secrets.DEPENDANOT_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 If you have an existing workflow that runs your tests you can just add the `Config dependanot` step at the end of that workflow.
+
+## Settings
+
+| Name        | Description          |
+| ----------- | -------------------- |
+| accessKeyId | Aws access key id    |
+| secretKey   | Aws secret           |
+| region      | Aws s3 bucket region |
+| bucket      | Aws s3 bucket name   |
 
 ## REST API Message Format
 
