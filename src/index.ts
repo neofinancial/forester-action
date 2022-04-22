@@ -42,7 +42,7 @@ const run = async (): Promise<void> => {
     console.log(`PR creator: ${pullRequestData.actor}`);
     console.log(`Time PR created: ${pullRequestData.timestamp}`);
 
-    console.log(`Context Payload: ${contextPayload}`);
+    console.log(`Context Payload: ${JSON.stringify(contextPayload)}`);
     console.log(`Arborist Tree: ${JSON.stringify(tree)}`);
 
     if (pullRequestData.pullRequest) {
