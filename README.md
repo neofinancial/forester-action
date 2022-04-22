@@ -31,20 +31,15 @@ jobs:
       - name: Upload dependanot
         uses: neofinancial/dependanot-action
         with:
-          dependanotEndpoint: https://your.endpoint.here
-          dependanotToken: ${{ secrets.DEPENDANOT_TOKEN }}
+          accessKeyId: ${{ secrets.ACCESS_KEY }}
+          secretKey: ${{ secrets.SECRET_KEY }}
+          region: ${{ secrets.REGION }}
+          bucket: ${{ secrets.BUCKET_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 If you have an existing workflow that runs your tests you can just add the `Config dependanot` step at the end of that workflow.
-
-## Settings
-
-| Name               | Description                                                            | Default | Required |
-| ------------------ | ---------------------------------------------------------------------- | ------- | -------- |
-| dependanotEndpoint | The remote endpoint to upload dependanot data to                       |         | No       |
-| dependanotToken    | A token to authenticate with the remote endpoint and identify the repo |         | No       |
 
 ## REST API Message Format
 
