@@ -27,7 +27,9 @@ jobs:
       - name: Upload dependanot
         uses: ./
         with:
-          dependanotEndpoint: ${{ secrets.DEPENDANOT_ENDPOINT }}
-          dependanotToken: ${{ secrets.DEPENDANOT_TOKEN }}
+          accessKeyId: ${{ secrets.ACCESS_KEY }}
+          secretKey: ${{ secrets.SECRET_KEY }}
+          region: ${{ secrets.REGION }}
+          bucket: ${{ secrets.BUCKET_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

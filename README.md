@@ -41,10 +41,12 @@ If you have an existing workflow that runs your tests you can just add the `Conf
 
 ## Settings
 
-| Name               | Description                                                            | Default | Required |
-| ------------------ | ---------------------------------------------------------------------- | ------- | -------- |
-| dependanotEndpoint | The remote endpoint to upload dependanot data to                       |         | No       |
-| dependanotToken    | A token to authenticate with the remote endpoint and identify the repo |         | No       |
+| Name        | Description          |
+| ----------- | -------------------- |
+| accessKeyId | Aws access key id    |
+| secretKey   | Aws secret           |
+| region      | Aws s3 bucket region |
+| bucket      | Aws s3 bucket name   |
 
 ## REST API Message Format
 

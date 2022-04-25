@@ -32,8 +32,8 @@ const makeComment = async (commentData?: string): Promise<void> => {
 
     const botComment = comments.data.find((comment) => comment.body?.includes('<!-- dependanot-action-comment -->'));
 
-    console.log(botComment);
-    console.log(commentData);
+    console.log('botComment', botComment);
+    console.log('commentData', commentData);
 
     if (!botComment) {
       octokit.issues.createComment({

@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import aws from 'aws-sdk';
 
 import { PullRequestData } from './get-pull-request-data';
 
@@ -12,7 +12,7 @@ type PostJSON = {
   pullRequest?: number;
 };
 
-const sendDataComment = async (url: string, pullRequestData: PullRequestData): Promise<string> => {
+const sendDataComment = async (url: string, pullRequestData: PullRequestData): Promise<void> => {
   const postJson: PostJSON = {
     id: pullRequestData.repositoryId,
     ref: pullRequestData.ref,
@@ -26,15 +26,32 @@ const sendDataComment = async (url: string, pullRequestData: PullRequestData): P
     postJson.pullRequest = pullRequestData.pullRequest;
   }
 
-  try {
-    const response = await axios.post(url, postJson, {
-      headers: { responseType: 'comment' },
-    });
+  console.log('send-data', postJson);
 
-    return response.data.message;
-  } catch (error) {
-    throw new Error(error);
+  const { ACCESS_KEY, SECRET_KEY, BUCKET_NAME, REGION } = process.env;
+
+  if (ACCESS_KEY && SECRET_KEY && BUCKET_NAME && REGION) {
+    console.log('received secrets');
   }
+
+  // aws.config.update({
+  //   accessKeyId: process.env.ACCESS_KEY,
+  //   secretAccessKey: process.env.SECRET_KEY,
+  //   region: process.env.REGION,
+  //   signatureVersion: 'v4',
+  // });
+
+  // try {
+  //   await new aws.S3().createPresignedPost({
+  //     Bucket: process.env.BUCKET_NAME,
+  //     Fields: {
+  //       key: 'foo',
+  //     },
+  //     Expires: 120,
+  //   });
+  // } catch (error) {
+  //   throw new Error(`Could not retrieve file from S3: ${error.message}`);
+  // }
 };
 
 export { sendDataComment };
