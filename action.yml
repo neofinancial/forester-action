@@ -1,0 +1,26 @@
+name: Dependabot Upload Action
+description: Upload Dependency trees to a remote endpoint
+author: Neo Financial Engineering
+branding:
+  icon: upload-cloud
+  color: blue
+inputs:
+  packageJsonPath:
+    description: 'location of package.json (default: ./package.json)'
+    default: './package.json'
+    required: false
+  accessKeyId:
+    description: aws access key id
+    required: true
+  secretKey:
+    description: aws secret key
+    required: true
+  region:
+    description: aws s3 bucket region
+    required: true
+  bucket:
+    description: aws s3 bucket name
+    required: true
+runs:
+  using: 'node16'
+  main: 'build/index.js'
