@@ -25,7 +25,7 @@ jobs:
           node-version: 16
           cache: npm
       - name: Install
-        run: npm ci --prefer-offline
+        run: npm install --prefer-offline
       - name: Lint
         run: npm run lint
       - name: Build

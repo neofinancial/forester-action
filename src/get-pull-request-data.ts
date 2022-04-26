@@ -10,7 +10,6 @@ export type PullRequestData = {
   timestamp: string;
   token: string;
   pullRequest?: number;
-  message?: string;
 };
 
 const getPullRequestData = async (): Promise<PullRequestData> => {

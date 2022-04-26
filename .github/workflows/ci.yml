@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize']
+  push:
+    branches: ['master']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: npm
+      - name: Install
+        run: npm ci --prefer-offline
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Upload dependanot
+        uses: ./
+        with:
+          accessKeyId: ${{ secrets.ACCESS_KEY }}
+          secretKey: ${{ secrets.SECRET_KEY }}
+          region: ${{ secrets.REGION }}
+          bucket: ${{ secrets.BUCKET_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
