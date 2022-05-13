@@ -1,4 +1,4 @@
-import { setFailed } from '@actions/core';
+import { getInput, setFailed, warning } from '@actions/core';
 import { context } from '@actions/github';
 import { inspect } from 'util';
 
@@ -10,10 +10,18 @@ import { setupPullRequest } from './setup-pull-request';
 
 const run = async (): Promise<void> => {
   try {
+    const serviceUrl = getInput('serviceUrl');
+
+    if (!serviceUrl) {
+      warning(
+        'Failed to retrieve `serviceUrl`. See configuration for instructions on how to add coverageToken to action.'
+      );
+    }
+
     const pullRequestData = await getPullRequestData();
 
     try {
-      const presignedPutUrl = await setupPullRequest(pullRequestData);
+      const presignedPutUrl = await setupPullRequest(serviceUrl, pullRequestData);
 
       console.log(presignedPutUrl);
 

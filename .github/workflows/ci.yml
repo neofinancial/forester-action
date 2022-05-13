@@ -22,12 +22,9 @@ jobs:
         run: npm run lint
       - name: Build
         run: npm run build
-      - name: Upload dependanot
+      - name: Upload forester
         uses: ./
         with:
-          accessKeyId: ${{ secrets.ACCESS_KEY }}
-          secretAccessKey: ${{ secrets.SECRET_KEY }}
-          region: ${{ secrets.REGION }}
-          bucket: ${{ secrets.BUCKET_NAME }}
+          serviceUrl: ${{ secrets.SERVICE_URL }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
