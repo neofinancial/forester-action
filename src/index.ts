@@ -23,7 +23,7 @@ const run = async (): Promise<void> => {
     try {
       const presignedPutUrl = await setupPullRequest(serviceUrl, pullRequestData);
 
-      console.log(presignedPutUrl);
+      console.log('presignedPutUrl:', presignedPutUrl);
 
       const packageJson = await getPackageJSON();
 

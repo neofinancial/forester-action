@@ -29,11 +29,15 @@ const setupPullRequest = async (url: string, setupPullRequestInput: SetupPullReq
         `;
 
   try {
-    return axios({
+    const response = await axios({
       url,
       method: 'post',
       data: { mutation },
     });
+
+    console.log('response:', response);
+
+    return response;
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message);
