@@ -2,25 +2,12 @@ import { setFailed } from '@actions/core';
 import axios, { AxiosResponse } from 'axios';
 import { inspect } from 'util';
 
-import { getPresignedPost } from './get-presigned-post';
-
-import { PullRequestData } from './get-pull-request-data';
-
-type sendDataInput = {
-  pullRequestData: PullRequestData;
-  packageJson: string;
-};
-
-const sendData = async (data: sendDataInput): Promise<AxiosResponse> => {
+const sendData = async (url: string, pullRequestData: string): Promise<AxiosResponse> => {
   try {
-    const { repositoryId, ref, pullRequest } = data.pullRequestData;
-    const filename = encodeURIComponent(`${repositoryId}-#${pullRequest}-${ref}.json`);
-    const url = await getPresignedPost(filename);
-
     return axios({
       method: 'put',
       url,
-      data,
+      data: pullRequestData,
     });
   } catch (error) {
     if (error instanceof Error) {
