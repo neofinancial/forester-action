@@ -18,7 +18,7 @@ export type SetupPullRequestResponse = {
   presignedPutUrl: string;
 };
 
-const setupPullRequest = async (setupPullRequestInput: SetupPullRequestInput): Promise<AxiosResponse> => {
+const setupPullRequest = async (url: string, setupPullRequestInput: SetupPullRequestInput): Promise<AxiosResponse> => {
   const mutation = gql`
           mutation setupPullRequest {
             setupPullRequest(input: ${setupPullRequestInput}) {
@@ -30,7 +30,7 @@ const setupPullRequest = async (setupPullRequestInput: SetupPullRequestInput): P
 
   try {
     return axios({
-      url: 'http://localhost:8069/graphql',
+      url,
       method: 'post',
       data: { mutation },
     });

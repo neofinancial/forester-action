@@ -1,6 +1,6 @@
-# Dependanot Upload Action
+# Forester Upload Action
 
-Uploads dependency data to a remote server - test 3
+Uploads dependency data to a remote server
 
 ## Overview
 
@@ -27,17 +27,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test
-        run: npm test -- --dependanot
-      - name: Upload dependanot
-        uses: neofinancial/dependanot-action
+        run: npm test --
+      - name: Upload forester
+        uses: neofinancial/forester-action
         with:
-          dependanotEndpoint: https://your.endpoint.here
-          dependanotToken: ${{ secrets.DEPENDANOT_TOKEN }}
+          serviceUrl: ${{ secrets.SERVICE_URL }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-If you have an existing workflow that runs your tests you can just add the `Config dependanot` step at the end of that workflow.
+If you have an existing workflow that runs your tests you can just add the `Config forester` step at the end of that workflow.
 
 ## Settings
 

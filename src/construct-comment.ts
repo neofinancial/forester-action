@@ -1,8 +1,8 @@
 const constructComment = async (commentData?: string): Promise<string> => {
   return `
-## Dependanot Report
+## Forester Report
 Data: ${commentData || 'N/A'}
-<!-- dependanot-action-comment -->
+<!-- forester-action-comment -->
 `;
 };
 

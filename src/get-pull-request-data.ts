@@ -1,11 +1,8 @@
-import { getInput } from '@actions/core';
 import { context } from '@actions/github';
 
 import { SetupPullRequestInput } from './use-setup-pull-request-mutation';
 
 const getPullRequestData = async (): Promise<SetupPullRequestInput> => {
-  const authToken = getInput('dependanotToken');
-
   const pullRequestData: SetupPullRequestInput = {
     repositoryId: context.payload.repository?.id,
     ref: '',
@@ -13,7 +10,7 @@ const getPullRequestData = async (): Promise<SetupPullRequestInput> => {
     sha: '',
     actor: '',
     timestamp: Date.now().toString(),
-    token: authToken,
+    token: '',
   };
 
   const info = context.payload;
