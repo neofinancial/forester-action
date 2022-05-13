@@ -1,4 +1,4 @@
-import { getInput, setFailed, warning } from '@actions/core';
+import { setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { inspect } from 'util';
 
@@ -6,27 +6,20 @@ import { getPackageJSON } from './get-package-json';
 import { getPullRequestData } from './get-pull-request-data';
 import { makeComment } from './make-comment';
 import { sendData } from './send-data';
+import { setupPullRequest } from './setup-pull-request';
 
 const run = async (): Promise<void> => {
   try {
     const pullRequestData = await getPullRequestData();
-    const accessKeyId = getInput('accessKeyId');
-    const secretAccessKey = getInput('secretAccessKey');
-    const region = getInput('region');
-    const bucket = getInput('bucket');
-
-    if (!accessKeyId || !secretAccessKey || !region || !bucket) {
-      warning(
-        'Failed to retrieve required secrets. See configuration for instructions on how to add secrets to action.'
-      );
-
-      return;
-    }
 
     try {
+      const presignedPutUrl = await setupPullRequest(pullRequestData);
+
+      console.log(presignedPutUrl);
+
       const packageJson = await getPackageJSON();
 
-      packageJson && (await sendData({ pullRequestData, packageJson }));
+      await sendData('presignedPutUrl', packageJson);
     } catch (error) {
       console.log(`${error}, Could not send data, printing comment`);
     }
