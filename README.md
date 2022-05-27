@@ -31,7 +31,7 @@ jobs:
       - name: Upload forester
         uses: neofinancial/forester-action
         with:
-          apiKey: ${{ secrets.FORESTER_API_KEY }}
+          cloudFrontAuth: ${{ secrets.CLOUD_FRONT_AUTH }}
           serviceUrl: ${{ secrets.FORESTER_SERVICE_URL }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

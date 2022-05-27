@@ -5,8 +5,8 @@ branding:
   icon: upload-cloud
   color: blue
 inputs:
-  apiKey:
-    description: 'Forester API key for WAF clearance'
+  cloudFrontAuth:
+    description: 'Cloud front authentication'
     required: true
   serviceUrl:
     description: 'Forester service GraphQL URL'

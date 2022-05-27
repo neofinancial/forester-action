@@ -10,7 +10,7 @@ import { setupPullRequest } from './setup-pull-request';
 
 const run = async (): Promise<void> => {
   try {
-    const apiKey = getInput('apiKey');
+    const cloudFrontAuth = getInput('cloudFrontAuth');
     const serviceUrl = getInput('serviceUrl');
 
     if (!serviceUrl) {
@@ -22,7 +22,7 @@ const run = async (): Promise<void> => {
     const pullRequestData = await getPullRequestData();
 
     try {
-      const presignedPutUrl = await setupPullRequest(apiKey, serviceUrl, pullRequestData);
+      const presignedPutUrl = await setupPullRequest(cloudFrontAuth, serviceUrl, pullRequestData);
 
       console.log('presignedPutUrl:', presignedPutUrl);
 

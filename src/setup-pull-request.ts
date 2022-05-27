@@ -19,7 +19,7 @@ export type SetupPullRequestResponse = {
 };
 
 const setupPullRequest = async (
-  apiKey: string,
+  cloudFrontAuth: string,
   url: string,
   setupPullRequestInput: SetupPullRequestInput
 ): Promise<string> => {
@@ -34,7 +34,7 @@ const setupPullRequest = async (
 
   try {
     const response = await axios({
-      headers: { FORESTER_API_KEY: apiKey },
+      headers: { cloudfrontauth: cloudFrontAuth },
       url,
       method: 'post',
       data: { mutation },
