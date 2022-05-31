@@ -1,0 +1,17 @@
+name: Forester Upload Action
+description: Upload Dependency trees to a remote endpoint
+author: Neo Financial Engineering
+branding:
+  icon: upload-cloud
+  color: blue
+inputs:
+  cloudFrontAuth:
+    description: 'Cloud front authentication'
+    required: true
+  serviceUrl:
+    description: 'Forester service GraphQL URL'
+    required: true
+
+runs:
+  using: 'node16'
+  main: 'build/index.js'
