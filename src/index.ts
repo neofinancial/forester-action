@@ -2,10 +2,10 @@ import { getInput, setFailed, warning } from '@actions/core';
 import { context } from '@actions/github';
 import { inspect } from 'util';
 
-import { getPackageJSON } from './get-package-json';
+import { readFile } from './read-file';
 import { getPullRequestData } from './get-pull-request-data';
 import { makeComment } from './make-comment';
-import { sendData } from './send-data';
+import { uploadPackage } from './upload-package';
 import { setupPullRequest } from './setup-pull-request';
 
 const run = async (): Promise<void> => {
@@ -22,13 +22,25 @@ const run = async (): Promise<void> => {
     const pullRequestData = await getPullRequestData();
 
     try {
-      const presignedPutUrl = await setupPullRequest(cloudFrontAuth, serviceUrl, pullRequestData);
+      const { presignedUrlPackage, presignedUrlPackageLock } = await setupPullRequest(
+        cloudFrontAuth,
+        serviceUrl,
+        pullRequestData
+      );
 
-      console.log('presignedPutUrl:', presignedPutUrl);
+      const [packageJson, packageLockJson] = await Promise.all([
+        readFile(`package.json`),
+        readFile(`package-lock.json`),
+      ]);
 
-      const packageJson = await getPackageJSON();
+      const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
+        uploadPackage(presignedUrlPackage, packageJson),
+        uploadPackage(presignedUrlPackageLock, packageLockJson),
+      ]);
 
-      await sendData(presignedPutUrl, packageJson);
+      if (uploadedPackageJson && uploadedPackageLockJson) {
+        console.log('Uploaded package and package-lock to S3');
+      }
     } catch (error) {
       console.log(`${error}, Could not send data, printing comment`);
     }

@@ -1,14 +1,16 @@
 import { setFailed } from '@actions/core';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { inspect } from 'util';
 
-const sendData = async (url: string, pullRequestData: string): Promise<AxiosResponse> => {
+const uploadPackage = async (url: string, data: string): Promise<boolean> => {
   try {
-    return axios({
+    const response = await axios({
       method: 'put',
       url,
-      data: pullRequestData,
+      data,
     });
+
+    return response.status === 200;
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message);
@@ -20,4 +22,4 @@ const sendData = async (url: string, pullRequestData: string): Promise<AxiosResp
   }
 };
 
-export { sendData };
+export { uploadPackage };

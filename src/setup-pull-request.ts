@@ -15,19 +15,21 @@ export type SetupPullRequestInput = {
 };
 
 export type SetupPullRequestResponse = {
-  presignedPutUrl: string;
+  presignedUrlPackage: string;
+  presignedUrlPackageLock: string;
 };
 
 const setupPullRequest = async (
   cloudFrontAuth: string,
   url: string,
   setupPullRequestInput: SetupPullRequestInput
-): Promise<string> => {
+): Promise<SetupPullRequestResponse> => {
   const mutation = gql`
     mutation setupPullRequest {
       setupPullRequest(input: ${setupPullRequestInput}) {
         __typename
-        presignedPutUrl
+        presignedUrlPackage
+        presignedUrlPackageLock
       }
     }
   `;
@@ -40,7 +42,7 @@ const setupPullRequest = async (
       data: { mutation },
     });
 
-    return response.data.setupPullRequest.presignedPutUrl;
+    return response.data.setupPullRequest;
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message);
