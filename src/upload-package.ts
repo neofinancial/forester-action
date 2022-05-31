@@ -2,7 +2,9 @@ import { setFailed } from '@actions/core';
 import axios from 'axios';
 import { inspect } from 'util';
 
-const uploadPackage = async (url: string, data: string): Promise<boolean> => {
+type UploadPackageInput = { url: string; data: string };
+
+const uploadPackage = async ({ url, data }: UploadPackageInput): Promise<boolean> => {
   try {
     const response = await axios({
       method: 'put',

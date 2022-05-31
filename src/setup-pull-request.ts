@@ -10,8 +10,9 @@ export type SetupPullRequestInput = {
   sha: string;
   actor: string;
   timestamp: string;
-  token: string;
-  pullRequest?: number;
+  pullRequest: number;
+  fileNamePackage: string;
+  fileNamePackageLock: string;
 };
 
 export type SetupPullRequestResponse = {

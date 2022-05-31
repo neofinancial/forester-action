@@ -6,7 +6,8 @@ import { readFile } from './read-file';
 import { getPullRequestData } from './get-pull-request-data';
 import { makeComment } from './make-comment';
 import { uploadPackage } from './upload-package';
-import { setupPullRequest } from './setup-pull-request';
+import { setupPullRequest, SetupPullRequestInput } from './setup-pull-request';
+import { generateReport, GenerateReportInput } from './generate-report';
 
 const run = async (): Promise<void> => {
   try {
@@ -22,10 +23,15 @@ const run = async (): Promise<void> => {
     const pullRequestData = await getPullRequestData();
 
     try {
+      const filePrefix = encodeURIComponent(`${pullRequestData.repositoryId}-#${pullRequestData.pullRequest}`);
+      const fileNamePackage = `${filePrefix}-package.json`;
+      const fileNamePackageLock = `${filePrefix}-package-lock.json`;
+      const setupPullRequestInput: SetupPullRequestInput = { ...pullRequestData, fileNamePackage, fileNamePackageLock };
+
       const { presignedUrlPackage, presignedUrlPackageLock } = await setupPullRequest(
         cloudFrontAuth,
         serviceUrl,
-        pullRequestData
+        setupPullRequestInput
       );
 
       const [packageJson, packageLockJson] = await Promise.all([
@@ -34,12 +40,19 @@ const run = async (): Promise<void> => {
       ]);
 
       const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
-        uploadPackage(presignedUrlPackage, packageJson),
-        uploadPackage(presignedUrlPackageLock, packageLockJson),
+        uploadPackage({ url: presignedUrlPackage, data: packageJson }),
+        uploadPackage({ url: presignedUrlPackageLock, data: packageLockJson }),
       ]);
 
       if (uploadedPackageJson && uploadedPackageLockJson) {
-        console.log('Uploaded package and package-lock to S3');
+        const generateReportInput: GenerateReportInput = {
+          fileNamePackage,
+          fileNamePackageLock,
+        };
+
+        const report = generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
+
+        console.log(report);
       }
     } catch (error) {
       console.log(`${error}, Could not send data, printing comment`);
