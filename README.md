@@ -45,7 +45,3 @@ If you have an existing workflow that runs your tests you can just add the `Conf
 | -------------- | ---------------------------- |
 | cloudFrontAuth | Cloud front authentication   |
 | serviceUrl     | Forester service GraphQL URL |
-
-## REST API Message Format
-
-This action will send a POST request to the specified endpoint with a message that looks like this:
