@@ -2,11 +2,12 @@ import { setFailed } from '@actions/core';
 import axios from 'axios';
 import { inspect } from 'util';
 
-type UploadPackageInput = { url: string; data: string };
+type UploadPackageInput = { cloudFrontAuth: string; url: string; data: string };
 
-const uploadPackage = async ({ url, data }: UploadPackageInput): Promise<boolean> => {
+const uploadPackage = async ({ cloudFrontAuth, url, data }: UploadPackageInput): Promise<boolean> => {
   try {
     const response = await axios({
+      headers: { cloudfrontauthorization: cloudFrontAuth },
       method: 'put',
       url,
       data,

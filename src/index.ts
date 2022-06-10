@@ -20,6 +20,12 @@ const run = async (): Promise<void> => {
       );
     }
 
+    if (!cloudFrontAuth) {
+      warning(
+        'Failed to retrieve `cloudFrontAuth`. See configuration for instructions on how to add cloudFrontAuth to action.'
+      );
+    }
+
     const pullRequestData = await getPullRequestData();
 
     try {
@@ -40,8 +46,8 @@ const run = async (): Promise<void> => {
       ]);
 
       const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
-        uploadPackage({ url: presignedUrlPackage, data: packageJson }),
-        uploadPackage({ url: presignedUrlPackageLock, data: packageLockJson }),
+        uploadPackage({ cloudFrontAuth, url: presignedUrlPackage, data: packageJson }),
+        uploadPackage({ cloudFrontAuth, url: presignedUrlPackageLock, data: packageLockJson }),
       ]);
 
       if (uploadedPackageJson && uploadedPackageLockJson) {

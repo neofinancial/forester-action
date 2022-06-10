@@ -1,7 +1,6 @@
 import { setFailed } from '@actions/core';
-import axios from 'axios';
 import { inspect } from 'util';
-import { gql } from '@apollo/client';
+import { request, gql } from 'graphql-request';
 
 export type SetupPullRequestInput = {
   repositoryId: number;
@@ -26,9 +25,8 @@ const setupPullRequest = async (
   setupPullRequestInput: SetupPullRequestInput
 ): Promise<SetupPullRequestResponse> => {
   const mutation = gql`
-    mutation setupPullRequest {
-      setupPullRequest(input: ${setupPullRequestInput}) {
-        __typename
+    mutation setupPullRequest($input: SetupPullRequestInput!) {
+      setupPullRequest(input: $input) {
         presignedUrlPackage
         presignedUrlPackageLock
       }
@@ -36,14 +34,14 @@ const setupPullRequest = async (
   `;
 
   try {
-    const response = await axios({
-      headers: { cloudfrontauth: cloudFrontAuth },
+    const response = await request({
       url,
-      method: 'post',
-      data: { mutation },
+      document: mutation,
+      variables: { input: setupPullRequestInput },
+      requestHeaders: { cloudfrontauthorization: cloudFrontAuth },
     });
 
-    return response.data.setupPullRequest;
+    return response.setupPullRequest;
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message);
