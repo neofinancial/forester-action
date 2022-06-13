@@ -10,13 +10,13 @@ export type SetupPullRequestInput = {
   actor: string;
   timestamp: string;
   pullRequest: number;
-  fileNamePackage: string;
-  fileNamePackageLock: string;
+  packageFilename: string;
+  packageLockFilename: string;
 };
 
 export type SetupPullRequestResponse = {
-  presignedUrlPackage: string;
-  presignedUrlPackageLock: string;
+  packageSignedUrl: string;
+  packageLockSignedUrl: string;
 };
 
 const setupPullRequest = async (
@@ -27,8 +27,8 @@ const setupPullRequest = async (
   const mutation = gql`
     mutation setupPullRequest($input: SetupPullRequestInput!) {
       setupPullRequest(input: $input) {
-        presignedUrlPackage
-        presignedUrlPackageLock
+        packageSignedUrl
+        packageLockSignedUrl
       }
     }
   `;

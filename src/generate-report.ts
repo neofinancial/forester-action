@@ -4,8 +4,8 @@ import { inspect } from 'util';
 import { gql } from '@apollo/client';
 
 export type GenerateReportInput = {
-  fileNamePackage: string;
-  fileNamePackageLock: string;
+  packageFilename: string;
+  packageLockFilename: string;
 };
 
 export type GenerateReportResponse = {
@@ -21,8 +21,8 @@ const generateReport = async (
     mutation generateReport {
       generateReport(input: ${generateReportInput}) {
         __typename
-        presignedUrlPackage
-        presignedUrlPackageLock
+        packageSignedUrl
+        packageLockSignedUrl
       }
     }
   `;

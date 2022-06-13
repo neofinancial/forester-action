@@ -30,11 +30,11 @@ const run = async (): Promise<void> => {
 
     try {
       const filePrefix = encodeURIComponent(`${pullRequestData.repositoryId}-#${pullRequestData.pullRequest}`);
-      const fileNamePackage = `${filePrefix}-package.json`;
-      const fileNamePackageLock = `${filePrefix}-package-lock.json`;
-      const setupPullRequestInput: SetupPullRequestInput = { ...pullRequestData, fileNamePackage, fileNamePackageLock };
+      const packageFilename = `${filePrefix}-package.json`;
+      const packageLockFilename = `${filePrefix}-package-lock.json`;
+      const setupPullRequestInput: SetupPullRequestInput = { ...pullRequestData, packageFilename, packageLockFilename };
 
-      const { presignedUrlPackage, presignedUrlPackageLock } = await setupPullRequest(
+      const { packageSignedUrl, packageLockSignedUrl } = await setupPullRequest(
         cloudFrontAuth,
         serviceUrl,
         setupPullRequestInput
@@ -46,14 +46,14 @@ const run = async (): Promise<void> => {
       ]);
 
       const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
-        uploadPackage({ cloudFrontAuth, url: presignedUrlPackage, data: packageJson }),
-        uploadPackage({ cloudFrontAuth, url: presignedUrlPackageLock, data: packageLockJson }),
+        uploadPackage({ url: packageSignedUrl, data: packageJson }),
+        uploadPackage({ url: packageLockSignedUrl, data: packageLockJson }),
       ]);
 
       if (uploadedPackageJson && uploadedPackageLockJson) {
         const generateReportInput: GenerateReportInput = {
-          fileNamePackage,
-          fileNamePackageLock,
+          packageFilename,
+          packageLockFilename,
         };
 
         const report = generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
