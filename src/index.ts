@@ -2,7 +2,7 @@ import { getInput, setFailed, warning } from '@actions/core';
 import { context } from '@actions/github';
 import { inspect } from 'util';
 
-import { readFile } from './read-file';
+// import { readFile } from './read-file';
 import { getPullRequestData } from './get-pull-request-data';
 import { makeComment } from './make-comment';
 import { uploadPackage } from './upload-package';
@@ -40,14 +40,14 @@ const run = async (): Promise<void> => {
         setupPullRequestInput
       );
 
-      const [packageJson, packageLockJson] = await Promise.all([
-        readFile(`package.json`),
-        readFile(`package-lock.json`),
-      ]);
+      // const [packageJson, packageLockJson] = await Promise.all([
+      //   readFile(`package.json`),
+      //   readFile(`package-lock.json`),
+      // ]);
 
       const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
-        uploadPackage({ url: packageSignedUrl, data: packageJson }),
-        uploadPackage({ url: packageLockSignedUrl, data: packageLockJson }),
+        uploadPackage({ url: packageSignedUrl, fileName: packageFilename }),
+        uploadPackage({ url: packageLockSignedUrl, fileName: packageLockFilename }),
       ]);
 
       if (uploadedPackageJson && uploadedPackageLockJson) {
