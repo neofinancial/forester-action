@@ -1,16 +1,15 @@
 import { setFailed } from '@actions/core';
 import axios from 'axios';
 import { inspect } from 'util';
+import fs from 'fs';
 
-type UploadPackageInput = { url: string; data: string };
+type UploadPackageInput = { url: string; fileName: string };
 
-const uploadPackage = async ({ url, data }: UploadPackageInput): Promise<boolean> => {
+const uploadPackage = async ({ url, fileName }: UploadPackageInput): Promise<boolean> => {
   try {
-    const response = await axios({
-      method: 'put',
-      url,
-      data,
-    });
+    const path = `${process.cwd()}/${fileName}`;
+    const file = fs.readFileSync(path);
+    const response = await axios.put(url, file);
 
     return response.status === 200;
   } catch (error) {

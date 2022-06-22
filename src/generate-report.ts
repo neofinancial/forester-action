@@ -1,11 +1,10 @@
 import { setFailed } from '@actions/core';
-import axios from 'axios';
 import { inspect } from 'util';
-import { gql } from '@apollo/client';
+import { request, gql } from 'graphql-request';
 
 export type GenerateReportInput = {
-  fileNamePackage: string;
-  fileNamePackageLock: string;
+  repositoryId: string;
+  pullRequest: number;
 };
 
 export type GenerateReportResponse = {
@@ -18,24 +17,22 @@ const generateReport = async (
   generateReportInput: GenerateReportInput
 ): Promise<GenerateReportResponse> => {
   const mutation = gql`
-    mutation generateReport {
-      generateReport(input: ${generateReportInput}) {
-        __typename
-        presignedUrlPackage
-        presignedUrlPackageLock
+    mutation generateReport($input: GenerateReportInput!) {
+      generateReport(input: $input) {
+        report
       }
     }
   `;
 
   try {
-    const response = await axios({
-      headers: { cloudfrontauth: cloudFrontAuth },
+    const response = await request({
       url,
-      method: 'get',
-      data: { mutation },
+      document: mutation,
+      variables: { input: generateReportInput },
+      requestHeaders: { cloudfrontauthorization: cloudFrontAuth },
     });
 
-    return response.data.generateReport;
+    return response.generateReport;
   } catch (error) {
     if (error instanceof Error) {
       setFailed(error.message);

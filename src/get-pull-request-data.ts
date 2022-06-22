@@ -1,39 +1,23 @@
 import { context } from '@actions/github';
 
-export type PullRequestData = {
-  repositoryId: number;
-  ref: string;
-  baseRef: string;
-  sha: string;
-  actor: string;
-  timestamp: string;
-  pullRequest: number;
-};
+import { SetupPullRequestInput } from './setup-pull-request';
 
-const getPullRequestData = async (): Promise<PullRequestData> => {
-  const { number, pull_request, sender } = context.payload;
+const getPullRequestData = async (): Promise<SetupPullRequestInput> => {
+  const { after, base_ref, number, pull_request, sender, ref, repository, head_commit } = context.payload;
 
-  if (!pull_request) {
-    throw new Error('Pull request data not found');
-  }
-
-  if (!sender) {
-    throw new Error('Sender data not found');
-  }
-
-  const pullRequestData = {
-    repositoryId: context.payload.repository?.id,
-    ref: pull_request.head.ref,
-    baseRef: pull_request.base.ref,
-    sha: pull_request.head.sha,
-    actor: sender.login,
-    timestamp: pull_request.created_at,
-    pullRequest: number,
+  const setupPullRequestInput: SetupPullRequestInput = {
+    repositoryId: repository?.id.toString(),
+    ref: pull_request?.head.ref || ref.replace('refs/heads/', ''),
+    baseRef: pull_request?.base.ref || base_ref || '',
+    sha: pull_request?.head.sha || after,
+    actor: sender?.login || 'github',
+    timestamp: pull_request?.created_at || head_commit.timestamp,
+    pullRequest: number || 0,
   };
 
-  console.log('pullRequestData:', pullRequestData);
+  console.log('setupPullRequestInput:', setupPullRequestInput);
 
-  return pullRequestData;
+  return setupPullRequestInput;
 };
 
 export { getPullRequestData };

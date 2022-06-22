@@ -30,7 +30,7 @@ const makeComment = async (commentData?: string): Promise<void> => {
       issue_number: pullRequestNumber,
     });
 
-    const botComment = comments.data.find((comment) => comment.body?.includes('<!-- dependanot-action-comment -->'));
+    const botComment = comments.data.find((comment) => comment.body?.includes('<!-- forester-action-comment -->'));
 
     console.log('botComment', botComment);
     console.log('commentData', commentData);

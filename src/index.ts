@@ -2,11 +2,10 @@ import { getInput, setFailed, warning } from '@actions/core';
 import { context } from '@actions/github';
 import { inspect } from 'util';
 
-import { readFile } from './read-file';
 import { getPullRequestData } from './get-pull-request-data';
 import { makeComment } from './make-comment';
 import { uploadPackage } from './upload-package';
-import { setupPullRequest, SetupPullRequestInput } from './setup-pull-request';
+import { setupPullRequest } from './setup-pull-request';
 import { generateReport, GenerateReportInput } from './generate-report';
 
 const run = async (): Promise<void> => {
@@ -20,37 +19,33 @@ const run = async (): Promise<void> => {
       );
     }
 
+    if (!cloudFrontAuth) {
+      warning(
+        'Failed to retrieve `cloudFrontAuth`. See configuration for instructions on how to add cloudFrontAuth to action.'
+      );
+    }
+
     const pullRequestData = await getPullRequestData();
 
     try {
-      const filePrefix = encodeURIComponent(`${pullRequestData.repositoryId}-#${pullRequestData.pullRequest}`);
-      const fileNamePackage = `${filePrefix}-package.json`;
-      const fileNamePackageLock = `${filePrefix}-package-lock.json`;
-      const setupPullRequestInput: SetupPullRequestInput = { ...pullRequestData, fileNamePackage, fileNamePackageLock };
-
-      const { presignedUrlPackage, presignedUrlPackageLock } = await setupPullRequest(
+      const { packageSignedUrl, packageLockSignedUrl } = await setupPullRequest(
         cloudFrontAuth,
         serviceUrl,
-        setupPullRequestInput
+        pullRequestData
       );
 
-      const [packageJson, packageLockJson] = await Promise.all([
-        readFile(`package.json`),
-        readFile(`package-lock.json`),
-      ]);
-
       const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
-        uploadPackage({ url: presignedUrlPackage, data: packageJson }),
-        uploadPackage({ url: presignedUrlPackageLock, data: packageLockJson }),
+        uploadPackage({ url: packageSignedUrl, fileName: 'package.json' }),
+        uploadPackage({ url: packageLockSignedUrl, fileName: 'package-lock.json' }),
       ]);
 
       if (uploadedPackageJson && uploadedPackageLockJson) {
         const generateReportInput: GenerateReportInput = {
-          fileNamePackage,
-          fileNamePackageLock,
+          repositoryId: pullRequestData.repositoryId,
+          pullRequest: pullRequestData.pullRequest,
         };
 
-        const report = generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
+        const report = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
 
         console.log(report);
       }
