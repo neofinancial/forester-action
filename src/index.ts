@@ -13,7 +13,8 @@ const run = async (): Promise<void> => {
   try {
     const cloudFrontAuth = getInput('cloudFrontAuth');
     const serviceUrl = getInput('serviceUrl');
-
+    let report;
+    
     if (!serviceUrl) {
       warning(
         'Failed to retrieve `serviceUrl`. See configuration for instructions on how to add serviceUrl to action.'
@@ -56,7 +57,7 @@ const run = async (): Promise<void> => {
           packageLockFilename,
         };
 
-        const report = generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
+         report = generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
 
         console.log(report);
       }
@@ -65,7 +66,7 @@ const run = async (): Promise<void> => {
     }
 
     if (context.payload.pull_request) {
-      makeComment('');
+      makeComment(report);
     }
   } catch (error) {
     if (error instanceof Error) {
