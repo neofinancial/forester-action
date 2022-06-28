@@ -27,6 +27,5 @@ jobs:
         with:
           cloudFrontAuth: ${{ secrets.CLOUD_FRONT_AUTH }}
           serviceUrl: ${{ secrets.FORESTER_SERVICE_URL }}
-          shiftleftAppId: ${{ secrets.SHIFTLEFT_APP_ID }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
