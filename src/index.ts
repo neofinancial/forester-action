@@ -12,6 +12,7 @@ const run = async (): Promise<void> => {
   try {
     const cloudFrontAuth = getInput('cloudFrontAuth');
     const serviceUrl = getInput('serviceUrl');
+    const shiftleftAppId = getInput('shiftleftAppId');
 
     if (!serviceUrl) {
       warning(
@@ -22,6 +23,12 @@ const run = async (): Promise<void> => {
     if (!cloudFrontAuth) {
       warning(
         'Failed to retrieve `cloudFrontAuth`. See configuration for instructions on how to add cloudFrontAuth to action.'
+      );
+    }
+
+    if (!shiftleftAppId) {
+      warning(
+        'Failed to retrieve `shiftleftAppId`. See configuration for instructions on how to add shiftleftAppId to action.'
       );
     }
 
@@ -43,6 +50,7 @@ const run = async (): Promise<void> => {
         const generateReportInput: GenerateReportInput = {
           repositoryId: pullRequestData.repositoryId,
           pullRequest: pullRequestData.pullRequest,
+          appId: shiftleftAppId,
         };
 
         const report = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);

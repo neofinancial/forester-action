@@ -33,6 +33,7 @@ jobs:
         with:
           cloudFrontAuth: ${{ secrets.CLOUD_FRONT_AUTH }}
           serviceUrl: ${{ secrets.FORESTER_SERVICE_URL }}
+          shiftleftAppId: ${{ secrets.SHIFTLEFT_APP_ID }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -41,7 +42,8 @@ If you have an existing workflow that runs your tests you can just add the `Conf
 
 ## Settings
 
-| Name           | Description                  |
-| -------------- | ---------------------------- |
-| cloudFrontAuth | Cloud front authentication   |
-| serviceUrl     | Forester service GraphQL URL |
+| Name           | Description                    |
+| -------------- | ------------------------------ |
+| cloudFrontAuth | Cloud front authentication     |
+| serviceUrl     | Forester service GraphQL URL   |
+| shiftleftAppId | shiftleft app id for your repo |
