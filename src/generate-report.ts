@@ -4,8 +4,8 @@ import { request, gql } from 'graphql-request';
 
 export type GenerateReportInput = {
   repositoryId: string;
+  repositoryName: string;
   pullRequest: number;
-  appId: string;
 };
 
 export type GenerateReportResponse = {

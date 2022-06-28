@@ -4,6 +4,7 @@ import { request, gql } from 'graphql-request';
 
 export type SetupPullRequestInput = {
   repositoryId: string;
+  repositoryName: string;
   ref: string;
   baseRef: string;
   sha: string;

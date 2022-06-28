@@ -7,6 +7,7 @@ const getPullRequestData = async (): Promise<SetupPullRequestInput> => {
 
   const setupPullRequestInput: SetupPullRequestInput = {
     repositoryId: repository?.id.toString(),
+    repositoryName: repository?.name || '',
     ref: pull_request?.head.ref || ref.replace('refs/heads/', ''),
     baseRef: pull_request?.base.ref || base_ref || '',
     sha: pull_request?.head.sha || after,
