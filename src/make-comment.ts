@@ -40,14 +40,14 @@ const makeComment = async (commentData?: string): Promise<void> => {
         owner: owner,
         repo: repo,
         issue_number: pullRequestNumber,
-        body: await constructComment(commentData),
+        body: commentData ?? (await constructComment(commentData)),
       });
     } else {
       octokit.issues.updateComment({
         owner: owner,
         repo: repo,
         comment_id: botComment.id,
-        body: await constructComment(commentData),
+        body: commentData ?? (await constructComment(commentData)),
       });
     }
   } catch {

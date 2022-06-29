@@ -12,6 +12,7 @@ const run = async (): Promise<void> => {
   try {
     const cloudFrontAuth = getInput('cloudFrontAuth');
     const serviceUrl = getInput('serviceUrl');
+    let report;
 
     if (!serviceUrl) {
       warning(
@@ -45,7 +46,7 @@ const run = async (): Promise<void> => {
           pullRequest: pullRequestData.pullRequest,
         };
 
-        const report = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
+        report = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
 
         console.log(report);
       }
@@ -54,7 +55,7 @@ const run = async (): Promise<void> => {
     }
 
     if (context.payload.pull_request) {
-      makeComment('');
+      makeComment(report);
     }
   } catch (error) {
     if (error instanceof Error) {
