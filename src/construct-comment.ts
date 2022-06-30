@@ -1,7 +1,7 @@
-const constructComment = async (commentData?: string): Promise<string> => {
+const constructComment = (): string => {
   return `
 ## Forester Report
-Data: ${commentData || 'N/A'}
+Something went wrong!
 <!-- forester-action-comment -->
 `;
 };
