@@ -1,7 +1,7 @@
 {
   "name": "forester-upload-action",
   "description": "Parses dependency trees and uploads to remote endpoint",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Neo Financial Engineering",
   "license": "MIT",
   "repository": {
