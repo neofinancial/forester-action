@@ -12,6 +12,7 @@ const run = async (): Promise<void> => {
   try {
     const cloudFrontAuth = getInput('cloudFrontAuth');
     const serviceUrl = getInput('serviceUrl');
+    let generateReportResponse;
 
     if (!serviceUrl) {
       warning(
@@ -45,16 +46,16 @@ const run = async (): Promise<void> => {
           pullRequest: pullRequestData.pullRequest,
         };
 
-        const report = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
+        generateReportResponse = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
 
-        console.log(report);
+        console.log(generateReportResponse);
       }
     } catch (error) {
       console.log(`${error}, Could not send data, printing comment`);
     }
 
     if (context.payload.pull_request) {
-      makeComment('');
+      makeComment(generateReportResponse?.report);
     }
   } catch (error) {
     if (error instanceof Error) {

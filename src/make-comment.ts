@@ -35,19 +35,21 @@ const makeComment = async (commentData?: string): Promise<void> => {
     console.log('botComment', botComment);
     console.log('commentData', commentData);
 
+    const body = commentData ?? (await constructComment(commentData));
+
     if (!botComment) {
       octokit.issues.createComment({
         owner: owner,
         repo: repo,
         issue_number: pullRequestNumber,
-        body: await constructComment(commentData),
+        body,
       });
     } else {
       octokit.issues.updateComment({
         owner: owner,
         repo: repo,
         comment_id: botComment.id,
-        body: await constructComment(commentData),
+        body,
       });
     }
   } catch {
