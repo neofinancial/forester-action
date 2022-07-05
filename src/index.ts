@@ -42,7 +42,7 @@ const run = async (): Promise<void> => {
       if (uploadedPackageJson && uploadedPackageLockJson) {
         const generateReportInput: GenerateReportInput = {
           repositoryId: pullRequestData.repositoryId,
-          branchName: pullRequestData.ref,
+          ref: pullRequestData.ref,
           pullRequest: pullRequestData.pullRequest,
         };
 
