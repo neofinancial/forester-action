@@ -51,7 +51,7 @@ const run = async (): Promise<void> => {
         console.log(generateReportResponse);
       }
     } catch (error) {
-      console.log(`${error}, Could not send data, printing comment`);
+      console.log(`${error}, Could not send data`);
     }
 
     if (context.payload.pull_request && generateReportResponse) {
