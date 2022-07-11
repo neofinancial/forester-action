@@ -2,9 +2,7 @@ import { setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { Octokit } from '@octokit/action';
 
-import { constructComment } from './construct-comment';
-
-const makeComment = async (commentData?: string): Promise<void> => {
+const makeComment = async (commentData: string): Promise<void> => {
   try {
     if (!context.payload.pull_request) {
       setFailed('No pull requests found.');
@@ -35,7 +33,7 @@ const makeComment = async (commentData?: string): Promise<void> => {
     console.log('botComment', botComment);
     console.log('commentData', commentData);
 
-    const body = commentData ?? constructComment();
+    const body = commentData;
 
     if (!botComment) {
       octokit.issues.createComment({
