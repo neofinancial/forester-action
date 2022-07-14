@@ -44,6 +44,7 @@ const run = async (): Promise<void> => {
           repositoryId: pullRequestData.repositoryId,
           ref: pullRequestData.ref,
           pullRequest: pullRequestData.pullRequest,
+          sha: pullRequestData.sha,
         };
 
         const report = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
