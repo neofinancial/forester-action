@@ -24,7 +24,7 @@ const setupPullRequest = async (
   setupPullRequestInput: Omit<PullRequestData, 'repositoryName'>
 ): Promise<SetupPullRequestResponse> => {
   const mutation = gql`
-    mutation setupPullRequest($input: PullRequestData!) {
+    mutation setupPullRequest($input: SetupPullRequestInput!) {
       setupPullRequest(input: $input) {
         packageSignedUrl
         packageLockSignedUrl

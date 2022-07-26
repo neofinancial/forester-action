@@ -16,7 +16,6 @@ const getPullRequestData = async (): Promise<PullRequestData> => {
     repositoryName: repository?.name
   };
 
-
   console.log('setupPullRequestInput:', setupPullRequestInput);
 
   return setupPullRequestInput;
