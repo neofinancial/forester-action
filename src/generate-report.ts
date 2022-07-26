@@ -7,6 +7,7 @@ export type GenerateReportInput = {
   ref: string;
   pullRequest: number;
   sha: string;
+  repositoryName: string;
 };
 
 export type GenerateReportResponse = {
