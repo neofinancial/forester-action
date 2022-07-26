@@ -10,7 +10,7 @@ export type GenerateReportInput = {
 };
 
 export type GenerateReportResponse = {
-  report: unknown;
+  report: string;
 };
 
 const generateReport = async (
