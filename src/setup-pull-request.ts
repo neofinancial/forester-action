@@ -2,7 +2,7 @@ import { setFailed } from '@actions/core';
 import { inspect } from 'util';
 import { request, gql } from 'graphql-request';
 
-export type SetupPullRequestInput = {
+export type PullRequestData = {
   repositoryId: string;
   ref: string;
   baseRef: string;
@@ -10,6 +10,7 @@ export type SetupPullRequestInput = {
   actor: string;
   timestamp: string;
   pullRequest: number;
+  repositoryName: string;
 };
 
 export type SetupPullRequestResponse = {
@@ -20,7 +21,7 @@ export type SetupPullRequestResponse = {
 const setupPullRequest = async (
   cloudFrontAuth: string,
   url: string,
-  setupPullRequestInput: SetupPullRequestInput
+  setupPullRequestInput: Omit<PullRequestData, 'repositoryName'>
 ): Promise<SetupPullRequestResponse> => {
   const mutation = gql`
     mutation setupPullRequest($input: SetupPullRequestInput!) {

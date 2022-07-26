@@ -28,11 +28,21 @@ const run = async (): Promise<void> => {
 
     const pullRequestData = await getPullRequestData();
 
+    const setupPullRequestInput = {
+      repositoryId: pullRequestData.repositoryId,
+      ref: pullRequestData.ref,
+      baseRef: pullRequestData.baseRef,
+      sha: pullRequestData.sha,
+      actor: pullRequestData.actor,
+      timestamp: pullRequestData.timestamp,
+      pullRequest: pullRequestData.pullRequest,
+    }
+
     try {
       const { packageSignedUrl, packageLockSignedUrl } = await setupPullRequest(
         cloudFrontAuth,
         serviceUrl,
-        pullRequestData
+        setupPullRequestInput
       );
 
       const [uploadedPackageJson, uploadedPackageLockJson] = await Promise.all([
@@ -46,7 +56,8 @@ const run = async (): Promise<void> => {
           ref: pullRequestData.ref,
           pullRequest: pullRequestData.pullRequest,
           sha: pullRequestData.sha,
-        };
+          repositoryName: pullRequestData.repositoryName,
+        }
 
         generateReportResponse = await generateReport(cloudFrontAuth, serviceUrl, generateReportInput);
 
