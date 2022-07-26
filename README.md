@@ -45,3 +45,5 @@ If you have an existing workflow that runs your tests you can just add the `Conf
 | -------------- | ---------------------------- |
 | cloudFrontAuth | Cloud front authentication   |
 | serviceUrl     | Forester service GraphQL URL |
+
+.
