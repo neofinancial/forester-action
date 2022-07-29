@@ -28,6 +28,22 @@ jobs:
     steps:
       - name: Test
         run: npm test --
+      - name: Download ShiftLeft CLI
+        run: |
+          curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
+      # ShiftLeft requires Java 1.8. Post the package step override the version
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: NextGen Static Analysis
+        run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --app shiftleft-ts-demo --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --js --cpg . -- --ts
+        env:
+          SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
       - name: Upload forester
         uses: neofinancial/forester-action
         with:
@@ -41,9 +57,8 @@ If you have an existing workflow that runs your tests you can just add the `Conf
 
 ## Settings
 
-| Name           | Description                  |
-| -------------- | ---------------------------- |
-| cloudFrontAuth | Cloud front authentication   |
-| serviceUrl     | Forester service GraphQL URL |
-
-.
+| Name                 | Description                  |
+| -------------------- | ---------------------------- |
+| cloudFrontAuth       | Cloud front authentication   |
+| serviceUrl           | Forester service GraphQL URL |
+| shiftleftAccessToken | Shiftleft Access Token       |
