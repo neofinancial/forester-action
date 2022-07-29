@@ -41,7 +41,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - name: NextGen Static Analysis
-        run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --app shiftleft-ts-demo --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --js --cpg . -- --ts
+        run: ${GITHUB_WORKSPACE}/sl analyze --app ${{ github.event.repository.name }} --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --js $(pwd)
         env:
           SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
       - name: Upload forester
