@@ -41,9 +41,10 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - name: NextGen Static Analysis
-        run: ${GITHUB_WORKSPACE}/sl analyze --app ${{ github.event.repository.name }} --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --js $(pwd)
+        run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --app ${{ github.event.repository.name }} --tag branch=${{ github.head_ref }} --js --cpg . -- --ts
         env:
           SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
+          SHIFTLEFT_API_TOKEN: ${{ secrets.SHIFTLEFT_API_TOKEN }}
       - name: Upload forester
         uses: neofinancial/forester-action
         with:
@@ -57,8 +58,7 @@ If you have an existing workflow that runs your tests you can just add the `Conf
 
 ## Settings
 
-| Name                 | Description                  |
-| -------------------- | ---------------------------- |
-| cloudFrontAuth       | Cloud front authentication   |
-| serviceUrl           | Forester service GraphQL URL |
-| shiftleftAccessToken | Shiftleft Access Token       |
+| Name           | Description                  |
+| -------------- | ---------------------------- |
+| cloudFrontAuth | Cloud front authentication   |
+| serviceUrl     | Forester service GraphQL URL |
